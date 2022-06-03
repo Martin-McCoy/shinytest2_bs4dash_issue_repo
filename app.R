@@ -10,17 +10,17 @@
 library(shiny)
 library(bs4Dash)
 
-ui <- dashboardPage(
-  dashboardHeader(title = "Basic dashboard"),
-  dashboardSidebar(),
-  dashboardBody(
+ui <- bs4Dash::dashboardPage(
+  bs4Dash::dashboardHeader(title = "Basic dashboard"),
+  bs4Dash::dashboardSidebar(),
+  bs4Dash::dashboardBody(
     # Boxes need to be put in a row (or column)
-    fluidRow(
-      box(plotOutput("plot1", height = 250)),
+    shiny::fluidRow(
+      bs4Dash::box(shiny::plotOutput("plot1", height = 250)),
 
-      box(
+      bs4Dash::box(
         title = "Controls",
-        sliderInput("slider", "Number of observations:", 1, 100, 50)
+        shiny::sliderInput("slider", "Number of observations:", 1, 100, 50)
       )
     )
   )
@@ -28,12 +28,12 @@ ui <- dashboardPage(
 
 server <- function(input, output) {
   set.seed(122)
-  histdata <- rnorm(500)
+  histdata <- stats::rnorm(500)
 
-  output$plot1 <- renderPlot({
+  output$plot1 <- shiny::renderPlot({
     data <- histdata[seq_len(input$slider)]
-    hist(data)
+    graphics::hist(data)
   })
 }
 
-shinyApp(ui, server)
+shiny::shinyApp(ui, server)
